@@ -53,4 +53,6 @@ public:
 
 	virtual AProduct* GetProduct() override;
 	virtual void SetProduct(AProduct* product) override;
+
+	//Github Test
 };
