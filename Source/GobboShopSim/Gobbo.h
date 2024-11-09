@@ -10,7 +10,7 @@
 UCLASS()
 class GOBBOSHOPSIM_API AGobbo : public AActor
 {
-	GENERATED_BODY()
+	GENERATED_BODY() //GitHub Check
 
 public:
 	// Sets default values for this actor's properties
