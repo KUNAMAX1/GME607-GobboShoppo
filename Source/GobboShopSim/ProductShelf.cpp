@@ -13,9 +13,13 @@ AProductShelf::AProductShelf()
 
 	ShelfMat = CreateDefaultSubobject<UMaterial>(TEXT("Base Shelf Mat"));
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh>ShelfMeshCheck(TEXT("/Game/ProductShelf/ProductShelf"));
+	
 
-	static ConstructorHelpers::FObjectFinder<UMaterial>ShelfMatCheck(TEXT("/Game/ProductShelf/M_ProductShelf"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>ShelfMeshCheck(TEXT("/Game/DungPack/Table/Table")); 
+
+	static ConstructorHelpers::FObjectFinder<UMaterial>ShelfMatCheck(TEXT("/Game/DungPack/Table/M_Table"));
+
+
 
 	if (ShelfMeshCheck.Succeeded())
 	{
@@ -28,7 +32,9 @@ AProductShelf::AProductShelf()
 		ShelfMesh->SetMaterial(0, ShelfMat);
 	}
 
-	ShelfMesh->SetRelativeScale3D(FVector(2, 4, 1));
+
+
+	
 
 	
 }
@@ -39,7 +45,7 @@ void AProductShelf::BeginPlay()
 	Super::BeginPlay();
 	
 	SpawnLoc = this->GetActorLocation();
-	SpawnLoc.Z += 65;
+	SpawnLoc.Z += 122;
 	SpawnLoc.Y -= 75;
 
 	for (int i = 0; i < 2; i++)
