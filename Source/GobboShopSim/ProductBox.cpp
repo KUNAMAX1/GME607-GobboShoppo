@@ -30,7 +30,7 @@ AProductBox::AProductBox()
 
 	BoxMesh->SetRelativeScale3D(FVector(2, 2, 0.1));
 
-	CurrentProduct = EProductList::EMPTY;
+	CurrentProduct = EProductList::FORTNITE;
 
 	CurrentTotal = 7;
 
@@ -49,7 +49,9 @@ void AProductBox::SpawnItems()
 {
 	SpawnLoc = this->GetActorLocation();
 	SpawnLoc.Z += 25;
-	//SpawnLoc.Y -= 50;
+	SpawnLoc.Y -= 70;
+	SpawnLoc.X -= 10;
+	
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -78,14 +80,18 @@ void AProductBox::SpawnItems()
 			case EProductList::MUSHROOM:
 				ProductsOnDisplay[i] = (AMushroomProduct*)GetWorld()->SpawnActor(AMushroomProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
 				break;
+
+			case EProductList::FORTNITE:
+				ProductsOnDisplay[i] = (AFortniteProduct*)GetWorld()->SpawnActor(AFortniteProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
+				break;
 			}
 
 
 
 
-			SpawnLoc.Y += 20;
+			SpawnLoc.Y += 35;
 		}
-		SpawnLoc.X += 25;
+		SpawnLoc.X += 40;
 		SpawnLoc.Y -= 100;
 	}
 }
@@ -108,5 +114,31 @@ void AProductBox::SetProduct(AProduct* product)
 {
 	//CurrentTotal++;
 	ProductsOnDisplay[0] = product;
+	ResetProductPositions();
 }
+
+void AProductBox::ResetProductPositions()
+{
+	SpawnLoc = this->GetActorLocation();
+	SpawnLoc.Z += 25;
+	SpawnLoc.Y -= 70;
+	SpawnLoc.X -= 10;
+
+
+
+	for (int i = 0; i < 2; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+
+			ProductsOnDisplay[i]->SetActorLocation(SpawnLoc);
+			
+
+			SpawnLoc.Y += 35;
+		}
+		SpawnLoc.X += 40;
+		SpawnLoc.Y -= 100;
+	}
+}
+
 

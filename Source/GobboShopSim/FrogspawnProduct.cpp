@@ -18,5 +18,5 @@ AFrogspawnProduct::AFrogspawnProduct()
 		BaseProductMesh->SetMaterial(0, FrogspawnMat);
 	}
 
-	ProductLabel = "FROGSPAWN";
+	ProductLabel = EProductList::FROGSPAWN;
 }

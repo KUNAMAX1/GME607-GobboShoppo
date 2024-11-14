@@ -18,5 +18,5 @@ AMushroomProduct::AMushroomProduct()
 		BaseProductMesh->SetMaterial(0, MushroomMat);
 	}
 
-	ProductLabel = "MUSHROOM";
+	ProductLabel = EProductList::MUSHROOM;
 }

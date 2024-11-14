@@ -7,6 +7,7 @@
 #include "Product.h"
 #include "FrogspawnProduct.h"
 #include "MushroomProduct.h"
+#include "FortniteProduct.h"
 #include "ProductEnum.h"
 #include "ProductPassing.h"
 #include "ProductBox.generated.h"
@@ -53,6 +54,8 @@ public:
 
 	virtual AProduct* GetProduct() override;
 	virtual void SetProduct(AProduct* product) override;
+
+	void ResetProductPositions();
 
 	//Github Test
 };

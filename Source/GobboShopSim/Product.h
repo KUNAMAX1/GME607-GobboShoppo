@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "ProductEnum.h"
 #include "Product.generated.h"
 
 UCLASS()
@@ -30,7 +31,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
 		class UMaterial* BaseProductMat;
 
-	FString ProductLabel;
+	EProductList ProductLabel;
 
 public:	
 	// Called every frame

@@ -8,6 +8,7 @@ AProduct::AProduct()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+	
 
 	BaseProductMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Shelf Mesh"));
 
@@ -28,15 +29,42 @@ AProduct::AProduct()
 		BaseProductMesh->SetMaterial(0, BaseProductMat);
 	}
 
-	ProductLabel = "EMPTY";
+	ProductLabel = EProductList::EMPTY;
 
 	BaseProductMesh->SetRelativeScale3D(FVector(0.4, 0.4, 0.4));
+
+	//BaseProductMesh->SetSimulatePhysics(true);
 
 }
 
 FString AProduct::GetLabel()
 {
-	return ProductLabel;
+	FString DebugMessageLabel;
+
+	switch (ProductLabel)
+	{
+	case EProductList::EMPTY:
+		DebugMessageLabel = "EMPTY";
+		break;
+
+	case EProductList::FROGSPAWN:
+		DebugMessageLabel = "FROGSPAWN";
+		break;
+
+	case EProductList::MUSHROOM:
+		DebugMessageLabel = "MUSHROOM";
+		break;
+
+	case EProductList::FORTNITE:
+		DebugMessageLabel = "FORTNITE";
+		break;
+	default:
+		DebugMessageLabel = "Read Enum Display Error";
+		break;
+
+	}
+
+	return DebugMessageLabel;
 }
 
 // Called when the game starts or when spawned
