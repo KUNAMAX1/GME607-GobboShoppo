@@ -17,6 +17,9 @@ public:
 	AGobbo();
 	AGobbo(TArray<AActor*> _GobboSeenShelves);
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeadText")
+		class UTextRenderComponent* TextRenderComponent;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -11,6 +11,7 @@
 #include "NoMansSkyProduct.h"
 #include "ProductEnum.h"
 #include "ProductPassing.h"
+#include "OuterWildsProduct.h"
 #include "ProductBox.generated.h"
 
 UCLASS()

@@ -13,6 +13,7 @@
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 #include <DrawDebugHelpers.h>
+#include "Blueprint/UserWidget.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -43,15 +44,6 @@ AGobboShopSimCharacter::AGobboShopSimCharacter()
 	Mesh1P->SetRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
 
-	/* Create a gun mesh component
-	FP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
-	FP_Gun->SetOnlyOwnerSee(false);			// otherwise won't be visible in the multiplayer
-	FP_Gun->bCastDynamicShadow = false;
-	FP_Gun->CastShadow = false;
-	// FP_Gun->SetupAttachment(Mesh1P, TEXT("GripPoint"));
-	FP_Gun->SetupAttachment(RootComponent);
-
-	*/
 }
 
 void AGobboShopSimCharacter::BeginPlay()
@@ -61,6 +53,15 @@ void AGobboShopSimCharacter::BeginPlay()
 
 	
 	PlayerProduct = (AProduct*)GetWorld()->SpawnActor(AProduct::StaticClass(), &ProductSpawnLoc, &ProductSpawnRot, ProductSpawnParams);
+
+	TimesClicked = 0;
+
+	if (HUDOverlayAsset)
+	{
+		HUDOverlay = CreateWidget<UUserWidget>(GetWorld(), HUDOverlayAsset);
+		HUDOverlay->AddToViewport();
+		HUDOverlay->SetVisibility(ESlateVisibility::Visible);
+	}
 	
 }
 
@@ -145,6 +146,7 @@ void AGobboShopSimCharacter::LineTraceForward()
 void AGobboShopSimCharacter::OnClick()
 {
 	LineTraceForward();
+	TimesClicked++;
 }
 
 

@@ -58,6 +58,14 @@ FString AProduct::GetLabel()
 	case EProductList::FORTNITE:
 		DebugMessageLabel = "FORTNITE";
 		break;
+
+	case EProductList::NOMANSSKY:
+		DebugMessageLabel = "NOMANSKY";
+		break;
+
+	case EProductList::OUTERWILDS:
+		DebugMessageLabel = "OUTERWILDS";
+		break;
 	default:
 		DebugMessageLabel = "Read Enum Display Error";
 		break;

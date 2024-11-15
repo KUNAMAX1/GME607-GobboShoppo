@@ -2,6 +2,7 @@
 
 
 #include "Gobbo.h"
+#include "Components/TextRenderComponent.h"
 
 // Sets default values
 AGobbo::AGobbo()
@@ -30,6 +31,11 @@ AGobbo::AGobbo()
 
 	GobboMesh->SetRelativeScale3D(FVector(22, 22, 22));
 
+	TextRenderComponent = CreateDefaultSubobject<UTextRenderComponent>(TEXT("TextRenderComponent"));
+	TextRenderComponent->SetupAttachment(RootComponent);
+
+	
+
 }
 
 // Called when the game starts or when spawned
@@ -37,6 +43,14 @@ void AGobbo::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	TextRenderComponent->SetText(TEXT("default text"));
+	TextRenderComponent->SetHorizontalAlignment(EHTA_Center);
+	TextRenderComponent->SetVerticalAlignment(EVRTA_TextCenter);
+	TextRenderComponent->SetWorldSize(25.0f);
+	TextRenderComponent->SetVisibility(true);
+
+	TextRenderComponent->SetRelativeLocation(FVector(-140, 300, 120));
+	TextRenderComponent->SetRelativeRotation(FRotator(0, -90, 0));
 	
 }
 

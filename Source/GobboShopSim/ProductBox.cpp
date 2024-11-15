@@ -30,7 +30,7 @@ AProductBox::AProductBox()
 
 	BoxMesh->SetRelativeScale3D(FVector(2, 2, 0.1));
 
-	CurrentProduct = EProductList::FORTNITE;
+	CurrentProduct = EProductList::EMPTY;
 
 	CurrentTotal = 7;
 
@@ -86,6 +86,13 @@ void AProductBox::SpawnItems()
 				break;
 			case EProductList::NOMANSSKY:
 				ProductsOnDisplay[i] = (ANoMansSkyProduct*)GetWorld()->SpawnActor(ANoMansSkyProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
+				break;
+
+			case EProductList::OUTERWILDS:
+				ProductsOnDisplay[i] = (AOuterWildsProduct*)GetWorld()->SpawnActor(AOuterWildsProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
+				break;
+
+			
 			}
 
 

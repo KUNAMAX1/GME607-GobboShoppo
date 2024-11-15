@@ -45,8 +45,16 @@ class AGobboShopSimCharacter : public ACharacter, public IProductPassing
 	FRotator ProductSpawnRot;
 	FActorSpawnParameters ProductSpawnParams;
 
+	
+
 public:
 	AGobboShopSimCharacter();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+		TSubclassOf<class UUserWidget> HUDOverlayAsset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+		UUserWidget* HUDOverlay;
 
 protected:
 	virtual void BeginPlay();
@@ -59,6 +67,9 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+		int TimesClicked;
 
 
 protected:
