@@ -29,5 +29,5 @@ AFortniteProduct::AFortniteProduct()
 
 	ProductLabel = EProductList::FORTNITE;
 	
-	BaseProductMesh->SetRelativeScale3D(FVector(3, 3, 3));
+	BaseProductMesh->SetRelativeScale3D(FVector(4, 4, 4));
 }

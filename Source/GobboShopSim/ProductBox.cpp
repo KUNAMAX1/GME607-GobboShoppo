@@ -84,6 +84,8 @@ void AProductBox::SpawnItems()
 			case EProductList::FORTNITE:
 				ProductsOnDisplay[i] = (AFortniteProduct*)GetWorld()->SpawnActor(AFortniteProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
 				break;
+			case EProductList::NOMANSSKY:
+				ProductsOnDisplay[i] = (ANoMansSkyProduct*)GetWorld()->SpawnActor(ANoMansSkyProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
 			}
 
 

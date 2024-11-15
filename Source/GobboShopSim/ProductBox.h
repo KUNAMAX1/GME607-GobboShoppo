@@ -8,6 +8,7 @@
 #include "FrogspawnProduct.h"
 #include "MushroomProduct.h"
 #include "FortniteProduct.h"
+#include "NoMansSkyProduct.h"
 #include "ProductEnum.h"
 #include "ProductPassing.h"
 #include "ProductBox.generated.h"
@@ -42,7 +43,7 @@ protected:
 
 
 	AProduct* ProductsOnDisplay[8];
-	int CurrentTotal;
+	int CurrentTotal; 
 
 	void SpawnItems();
 

@@ -4,22 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "Product.h"
-#include "FortniteProduct.generated.h"
+#include "NoMansSkyProduct.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class GOBBOSHOPSIM_API AFortniteProduct : public AProduct
+class GOBBOSHOPSIM_API ANoMansSkyProduct : public AProduct
 {
 	GENERATED_BODY()
 
 public:
-	AFortniteProduct();
+	ANoMansSkyProduct();
 
 
 private:
 
-	
 	
 };
