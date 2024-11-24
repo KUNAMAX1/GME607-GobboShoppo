@@ -28,6 +28,7 @@ AFortniteProduct::AFortniteProduct()
 	
 
 	ProductLabel = EProductList::FORTNITE;
+	ProductPrice = 39;
 	
 	BaseProductMesh->SetRelativeScale3D(FVector(4, 4, 4));
 }

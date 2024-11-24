@@ -48,7 +48,7 @@ protected:
 	int CurrentProductIndex;
 
 
-	AProduct* ProductsOnDisplay[NO_OF_PRODUCTS];
+
 
 public:	
 	// Called every frame
@@ -58,5 +58,7 @@ public:
 	virtual void SetProduct(AProduct* product) override;
 
 	void ResetProductPositions();
+
+	AProduct* ProductsOnDisplay[NO_OF_PRODUCTS];
 
 };

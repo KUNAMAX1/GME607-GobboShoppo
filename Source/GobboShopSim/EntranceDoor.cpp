@@ -43,9 +43,18 @@ void AEntranceDoor::BeginPlay()
 
 	TSubclassOf<AActor> WorldClassObject = AProductShelf::StaticClass();
 
-	UGameplayStatics::GetAllActorsOfClass(this, WorldClassObject, CurrentShelfLayout);
+	UGameplayStatics::GetAllActorsOfClass(this, WorldClassObject, CurrentShelfActors);
 
 	if (GEngine) GEngine->AddOnScreenDebugMessage(9, 2.f, FColor::Magenta, FString::Printf(TEXT("Door can see %d Shelves"), CurrentShelfLayout.Num()));
+
+	for (AActor* Actor : CurrentShelfActors)
+	{
+		AProductShelf* ProductShelf = Cast<AProductShelf>(Actor);
+		if (ProductShelf)
+		{
+			CurrentShelfLayout.Add(ProductShelf);
+		}
+	}
 }
 
 void AEntranceDoor::GobboSpawn()

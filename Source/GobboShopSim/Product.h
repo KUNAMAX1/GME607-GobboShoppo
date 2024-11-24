@@ -19,6 +19,7 @@ public:
 	AProduct();
 
 	FString GetLabel();
+	EProductList GetEnum();
 
 
 protected:
@@ -32,12 +33,14 @@ protected:
 		class UMaterial* BaseProductMat;
 
 	EProductList ProductLabel;
+	int ProductPrice;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	void BinProduct();
+	int GetProductPrice();
 
-	//GitHub Check
+	
 };

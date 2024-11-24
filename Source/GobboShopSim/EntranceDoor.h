@@ -39,7 +39,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GobboSpawner")
 		int GobboSpawnMult = 10;
 
-	TArray<AActor*> CurrentShelfLayout;
+	TArray<AActor*> CurrentShelfActors;
+	TArray<AProductShelf*> CurrentShelfLayout;
 
 	TArray<AGobbo*> GobboShoppers;
 

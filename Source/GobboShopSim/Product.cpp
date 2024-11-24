@@ -30,6 +30,7 @@ AProduct::AProduct()
 	}
 
 	ProductLabel = EProductList::EMPTY;
+	ProductPrice = 0;
 
 	BaseProductMesh->SetRelativeScale3D(FVector(4, 4, 4));
 
@@ -67,6 +68,11 @@ FString AProduct::GetLabel()
 	return DebugMessageLabel;
 }
 
+EProductList AProduct::GetEnum()
+{
+	return ProductLabel;
+}
+
 // Called when the game starts or when spawned
 void AProduct::BeginPlay()
 {
@@ -84,5 +90,10 @@ void AProduct::Tick(float DeltaTime)
 void AProduct::BinProduct()
 {
 	Destroy();
+}
+
+int AProduct::GetProductPrice()
+{
+	return ProductPrice;
 }
 

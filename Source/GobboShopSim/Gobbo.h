@@ -7,15 +7,35 @@
 #include "ProductShelf.h"
 #include "Gobbo.generated.h"
 
+constexpr int MAX_SHOPPING_LIST = 4;
+
+USTRUCT(BlueprintType)
+struct FGobboShoppingList
+{
+	GENERATED_BODY()
+
+	EProductList WantedProduct[MAX_SHOPPING_LIST];
+	EProductList InBag[MAX_SHOPPING_LIST];
+	bool bCompletedPurchase[MAX_SHOPPING_LIST];
+
+};
 UCLASS()
 class GOBBOSHOPSIM_API AGobbo : public AActor
 {
 	GENERATED_BODY() //GitHub Check
 
+		enum class EGobboState : int8
+	{
+		BROWSING,
+		CHECKLIST,
+		PAY,
+		EXIT
+	};
+
 public:
 	// Sets default values for this actor's properties
 	AGobbo();
-	AGobbo(TArray<AActor*> _GobboSeenShelves);
+	AGobbo(TArray<AProductShelf*> _GobboSeenShelves);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeadText")
 		class UTextRenderComponent* TextRenderComponent;
@@ -30,7 +50,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
 		class UMaterial* GobboMat;
 
-	TArray<AActor*> GobboSeenShelves;
+	TArray<AProductShelf*> GobboSeenShelves;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gobbo Settings")
 		float GobboShoppingSpeed = 3;
@@ -40,18 +60,29 @@ protected:
 	AActor* GobboShoppingTarget;
 
 	void GobboGoTo(float DeltaTime);
+	void GobboGenerateShoppingList();
+	void GobboCheckList();
+	void GobboBrowsing(float DeltaTime);
+	void GobboExit();
+
+
+
+	FGobboShoppingList GobboShoppingList;
+	EGobboState GobboState;
+
 
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 
-	void SetGobboSeenShelves(TArray<AActor*> NewShelves);
+	void SetGobboSeenShelves(TArray<AProductShelf*> NewShelves);
 	void SetGobboShoppingTarget(AActor* NewTarget);
 
-	void TempMoveSyst();
+
 
 	void PrintGobboSeenShelves();
-	
+	void UpdateGobbo(float DeltaTime);
+
 
 };
