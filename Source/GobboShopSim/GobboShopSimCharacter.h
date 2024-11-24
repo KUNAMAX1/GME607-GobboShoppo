@@ -4,8 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "MushroomProduct.h"
-#include "FrogspawnProduct.h"
 #include "ProductPassing.h"
 #include "ProductEnum.h"
 #include "GobboShopSimCharacter.generated.h"

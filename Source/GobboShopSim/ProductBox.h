@@ -5,14 +5,15 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Product.h"
-#include "FrogspawnProduct.h"
-#include "MushroomProduct.h"
+
 #include "FortniteProduct.h"
 #include "NoMansSkyProduct.h"
 #include "ProductEnum.h"
 #include "ProductPassing.h"
 #include "OuterWildsProduct.h"
 #include "ProductBox.generated.h"
+
+constexpr int NO_OF_PRODUCTS = 8;
 
 UCLASS()
 class GOBBOSHOPSIM_API AProductBox : public AActor, public IProductPassing
@@ -43,8 +44,8 @@ protected:
 
 
 
-	AProduct* ProductsOnDisplay[8];
-	int CurrentTotal; 
+	AProduct* ProductsOnDisplay[NO_OF_PRODUCTS];
+	int CurrentProductIndex; 
 
 	void SpawnItems();
 

@@ -31,7 +31,7 @@ AProduct::AProduct()
 
 	ProductLabel = EProductList::EMPTY;
 
-	BaseProductMesh->SetRelativeScale3D(FVector(0.4, 0.4, 0.4));
+	BaseProductMesh->SetRelativeScale3D(FVector(4, 4, 4));
 
 	//BaseProductMesh->SetSimulatePhysics(true);
 
@@ -45,14 +45,6 @@ FString AProduct::GetLabel()
 	{
 	case EProductList::EMPTY:
 		DebugMessageLabel = "EMPTY";
-		break;
-
-	case EProductList::FROGSPAWN:
-		DebugMessageLabel = "FROGSPAWN";
-		break;
-
-	case EProductList::MUSHROOM:
-		DebugMessageLabel = "MUSHROOM";
 		break;
 
 	case EProductList::FORTNITE:

@@ -32,7 +32,7 @@ AProductBox::AProductBox()
 
 	CurrentProduct = EProductList::EMPTY;
 
-	CurrentTotal = 0;
+	CurrentProductIndex = NO_OF_PRODUCTS - 1;
 
 }
 
@@ -47,13 +47,8 @@ void AProductBox::BeginPlay()
 
 void AProductBox::SpawnItems()
 {
-	SpawnLoc = this->GetActorLocation();
-	SpawnLoc.Z += 5;
-	SpawnLoc.Y -= 70;
-	SpawnLoc.X -= 10;
-	
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < NO_OF_PRODUCTS; i++)
 	{
 		if (ProductsOnDisplay[i])
 		{
@@ -62,10 +57,8 @@ void AProductBox::SpawnItems()
 	}
 
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < NO_OF_PRODUCTS; i++)
 	{
-		for (int j = 0; j < 4; j++)
-		{
 
 			switch (CurrentProduct)
 			{
@@ -73,37 +66,22 @@ void AProductBox::SpawnItems()
 				ProductsOnDisplay[i] = (AProduct*)GetWorld()->SpawnActor(AProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
 				break;
 
-			case EProductList::FROGSPAWN:
-				ProductsOnDisplay[i] = (AFrogspawnProduct*)GetWorld()->SpawnActor(AFrogspawnProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
-				break;
-
-			case EProductList::MUSHROOM:
-				ProductsOnDisplay[i] = (AMushroomProduct*)GetWorld()->SpawnActor(AMushroomProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
-				break;
-
 			case EProductList::FORTNITE:
 				ProductsOnDisplay[i] = (AFortniteProduct*)GetWorld()->SpawnActor(AFortniteProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
 				break;
 			case EProductList::NOMANSSKY:
 				ProductsOnDisplay[i] = (ANoMansSkyProduct*)GetWorld()->SpawnActor(ANoMansSkyProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
-				//ProductsOnDisplay[i]->SetPivotOffset(FVector(0, -30, 0));
 				break;
 
 			case EProductList::OUTERWILDS:
 				ProductsOnDisplay[i] = (AOuterWildsProduct*)GetWorld()->SpawnActor(AOuterWildsProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
 				break;
 
-			
-			}
 
-
-
-
-			SpawnLoc.Y += 35;
 		}
-		SpawnLoc.X += 40;
-		SpawnLoc.Y -= 100;
+
 	}
+	ResetProductPositions();
 }
 
 // Called every frame
@@ -111,31 +89,36 @@ void AProductBox::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	SpawnItems();
+	//SpawnItems();
 }
 
 AProduct* AProductBox::GetProduct()
 {
-	//CurrentTotal++;
-	if (CurrentTotal >= 0 && CurrentTotal <= 7 )
+	AProduct* ReturningProduct;
+
+	if (CurrentProductIndex >= 0 && CurrentProductIndex < NO_OF_PRODUCTS)
 	{
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("Product Index no. %d"), CurrentProductIndex));
 		
-		return ProductsOnDisplay[0];
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("Product Box no. 5d"), CurrentProduct));
+		ReturningProduct = ProductsOnDisplay[CurrentProductIndex];
+
+		CurrentProductIndex--;
+		
 	}
 	else
 	{
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Index out of Array"));
-		return ProductsOnDisplay[0];
+		ReturningProduct = nullptr;
 	}
 	
+	return ReturningProduct;
 	
 }
 
 void AProductBox::SetProduct(AProduct* product)
 {
-	//CurrentTotal++;
-	ProductsOnDisplay[0] = product;
+
+	ProductsOnDisplay[CurrentProductIndex+1] = product;
 	ResetProductPositions();
 }
 
@@ -147,20 +130,27 @@ void AProductBox::ResetProductPositions()
 	SpawnLoc.X -= 10;
 
 
+	int SpawnLoopIterator = 0;
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < (NO_OF_PRODUCTS/4); i++)
 	{
-		for (int j = 0; j < 4; j++)
+		for (int j = 0; j < (NO_OF_PRODUCTS/2); j++)
 		{
+			if (ProductsOnDisplay[SpawnLoopIterator])
+			{
 
-			ProductsOnDisplay[i]->SetActorLocation(SpawnLoc);
+				ProductsOnDisplay[SpawnLoopIterator]->SetActorLocation(SpawnLoc);
+				ProductsOnDisplay[SpawnLoopIterator]->SetActorRotation(SpawnRot);
+				SpawnLoopIterator++;
+			}
 			
-
 			SpawnLoc.Y += 35;
 		}
 		SpawnLoc.X += 40;
 		SpawnLoc.Y -= 100;
+
 	}
+
 }
 
 

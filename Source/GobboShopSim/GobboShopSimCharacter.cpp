@@ -134,10 +134,20 @@ void AGobboShopSimCharacter::LineTraceForward()
 
 		if (Hit.GetActor()->GetClass()->ImplementsInterface(UProductPassing::StaticClass()))
 		{
-			AProduct* TempProduct;
-			TempProduct = PlayerProduct;
-			PlayerProduct = Cast<IProductPassing>(Hit.GetActor())->GetProduct();
-			Cast<IProductPassing>(Hit.GetActor())->SetProduct(TempProduct);
+			AProduct* ProductFoundFromClass = Cast<IProductPassing>(Hit.GetActor())->GetProduct();
+
+			if (ProductFoundFromClass != nullptr)
+			{
+				AProduct* TempProduct;
+				TempProduct = PlayerProduct;
+				PlayerProduct = ProductFoundFromClass;
+				Cast<IProductPassing>(Hit.GetActor())->SetProduct(TempProduct);
+			}
+			else
+			{
+				if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Magenta, TEXT("No Product Swap Implemented"));
+			}
+			
 		}
 
 	}
@@ -190,7 +200,9 @@ void AGobboShopSimCharacter::Tick(float DeltaTime)
 		GEngine->AddOnScreenDebugMessage(1, 2.f, FColor::Green, PlayerProduct->GetLabel());
 	}
 
+
 	PlayerProduct->SetActorLocation(this->GetActorLocation() + FVector(100, 5, 5));
+	PlayerProduct->AddActorLocalRotation(FRotator(0, 1, 0));
 }
 
 

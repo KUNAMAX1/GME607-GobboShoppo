@@ -4,11 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "ProductPassing.h"
 #include "Product.h"
+#include "NoMansSkyProduct.h"
+#include "FortniteProduct.h"
+#include "OuterWildsProduct.h"
 #include "ProductShelf.generated.h"
 
+constexpr int NO_OF_PRODUCTS = 8;
+
 UCLASS()
-class GOBBOSHOPSIM_API AProductShelf : public AActor
+class GOBBOSHOPSIM_API AProductShelf : public AActor, public IProductPassing
 {
 	GENERATED_BODY()
 	
@@ -39,11 +45,18 @@ protected:
 	FRotator SpawnRot;
 	FActorSpawnParameters SpawnParams;
 
+	int CurrentProductIndex;
 
-	AProduct* ProductsOnDisplay[8];
+
+	AProduct* ProductsOnDisplay[NO_OF_PRODUCTS];
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	virtual AProduct* GetProduct() override;
+	virtual void SetProduct(AProduct* product) override;
+
+	void ResetProductPositions();
 
 };
