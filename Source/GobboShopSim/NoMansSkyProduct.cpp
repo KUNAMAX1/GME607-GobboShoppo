@@ -30,4 +30,6 @@ ANoMansSkyProduct::ANoMansSkyProduct()
 	ProductLabel = EProductList::NOMANSSKY;
 
 	BaseProductMesh->SetRelativeScale3D(FVector(4, 4, 4));
+
+	
 }

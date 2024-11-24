@@ -27,5 +27,5 @@ AOuterWildsProduct::AOuterWildsProduct()
 
 	ProductLabel = EProductList::OUTERWILDS;
 
-	BaseProductMesh->SetRelativeScale3D(FVector(1.5, 1.5, 1.5));
+	BaseProductMesh->SetRelativeScale3D(FVector(0.8, 0.8, 0.8));
 }

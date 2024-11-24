@@ -32,7 +32,7 @@ AProductBox::AProductBox()
 
 	CurrentProduct = EProductList::EMPTY;
 
-	CurrentTotal = 7;
+	CurrentTotal = 0;
 
 }
 
@@ -48,7 +48,7 @@ void AProductBox::BeginPlay()
 void AProductBox::SpawnItems()
 {
 	SpawnLoc = this->GetActorLocation();
-	SpawnLoc.Z += 25;
+	SpawnLoc.Z += 5;
 	SpawnLoc.Y -= 70;
 	SpawnLoc.X -= 10;
 	
@@ -86,6 +86,7 @@ void AProductBox::SpawnItems()
 				break;
 			case EProductList::NOMANSSKY:
 				ProductsOnDisplay[i] = (ANoMansSkyProduct*)GetWorld()->SpawnActor(ANoMansSkyProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
+				//ProductsOnDisplay[i]->SetPivotOffset(FVector(0, -30, 0));
 				break;
 
 			case EProductList::OUTERWILDS:
@@ -115,8 +116,20 @@ void AProductBox::Tick(float DeltaTime)
 
 AProduct* AProductBox::GetProduct()
 {
-	//CurrentTotal--;
-	return ProductsOnDisplay[0];
+	//CurrentTotal++;
+	if (CurrentTotal >= 0 && CurrentTotal <= 7 )
+	{
+		
+		return ProductsOnDisplay[0];
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("Product Box no. 5d"), CurrentProduct));
+	}
+	else
+	{
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Index out of Array"));
+		return ProductsOnDisplay[0];
+	}
+	
+	
 }
 
 void AProductBox::SetProduct(AProduct* product)
@@ -129,7 +142,7 @@ void AProductBox::SetProduct(AProduct* product)
 void AProductBox::ResetProductPositions()
 {
 	SpawnLoc = this->GetActorLocation();
-	SpawnLoc.Z += 25;
+	SpawnLoc.Z += 5;
 	SpawnLoc.Y -= 70;
 	SpawnLoc.X -= 10;
 

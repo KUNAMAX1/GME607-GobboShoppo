@@ -32,7 +32,7 @@ AProductShelf::AProductShelf()
 		ShelfMesh->SetMaterial(0, ShelfMat);
 	}
 
-
+	CurrentProduct = EProductList::EMPTY;
 
 	
 
@@ -52,7 +52,33 @@ void AProductShelf::BeginPlay()
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			ProductsOnDisplay[i] = (AProduct*)GetWorld()->SpawnActor(AProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
+			switch (CurrentProduct)
+			{
+			case EProductList::EMPTY:
+				ProductsOnDisplay[i] = (AProduct*)GetWorld()->SpawnActor(AProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
+				break;
+
+			case EProductList::FROGSPAWN:
+				ProductsOnDisplay[i] = (AFrogspawnProduct*)GetWorld()->SpawnActor(AFrogspawnProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
+				break;
+
+			case EProductList::MUSHROOM:
+				ProductsOnDisplay[i] = (AMushroomProduct*)GetWorld()->SpawnActor(AMushroomProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
+				break;
+
+			case EProductList::FORTNITE:
+				ProductsOnDisplay[i] = (AFortniteProduct*)GetWorld()->SpawnActor(AFortniteProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
+				break;
+			case EProductList::NOMANSSKY:
+				ProductsOnDisplay[i] = (ANoMansSkyProduct*)GetWorld()->SpawnActor(ANoMansSkyProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
+				break;
+
+			case EProductList::OUTERWILDS:
+				ProductsOnDisplay[i] = (AOuterWildsProduct*)GetWorld()->SpawnActor(AOuterWildsProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
+				break;
+
+
+			}
 			SpawnLoc.Y += 40;
 		}
 		SpawnLoc.X += 45;
