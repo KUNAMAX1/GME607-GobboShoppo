@@ -33,6 +33,9 @@ AProduct::AProduct()
 	ProductPrice = 0;
 
 	BaseProductMesh->SetRelativeScale3D(FVector(4, 4, 4));
+	BaseProductMesh->SetVisibility(false);
+
+	BaseProductMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	//BaseProductMesh->SetSimulatePhysics(true);
 

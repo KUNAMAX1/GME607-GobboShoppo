@@ -122,7 +122,6 @@ void AProductShelf::ResetProductPositions()
 		{
 			if (ProductsOnDisplay[SpawnLoopIterator])
 			{
-
 				ProductsOnDisplay[SpawnLoopIterator]->SetActorLocation(SpawnLoc);
 				ProductsOnDisplay[SpawnLoopIterator]->SetActorRotation(SpawnRot);
 				SpawnLoopIterator++;
@@ -135,5 +134,13 @@ void AProductShelf::ResetProductPositions()
 
 	}
 
+}
+
+void AProductShelf::ProductTaken(int ProductIndex)
+{
+	ProductsOnDisplay[ProductIndex]->Destroy();
+
+	ProductsOnDisplay[ProductIndex] = (AProduct*)GetWorld()->SpawnActor(AProduct::StaticClass(), &SpawnLoc, &SpawnRot, SpawnParams);
+	ResetProductPositions();
 }
 

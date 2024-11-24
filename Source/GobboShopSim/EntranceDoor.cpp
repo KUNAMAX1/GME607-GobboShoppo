@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "EntranceDoor.h"
 #include <Kismet/GameplayStatics.h>
 
@@ -31,9 +30,10 @@ AEntranceDoor::AEntranceDoor()
 
 	if (bGobboSpawner)
 	{
-		//GobboSpawnTimer = GobboSpawnMult * FMath::RandRange(60, 120);
+
 		GobboSpawnTimer = 10;
 	}
+
 }
 
 // Called when the game starts or when spawned
@@ -41,9 +41,9 @@ void AEntranceDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TSubclassOf<AActor> WorldClassObject = AProductShelf::StaticClass();
+	TSubclassOf<AActor> WorldShelfObject = AProductShelf::StaticClass();
 
-	UGameplayStatics::GetAllActorsOfClass(this, WorldClassObject, CurrentShelfActors);
+	UGameplayStatics::GetAllActorsOfClass(this, WorldShelfObject, CurrentShelfActors);
 
 	if (GEngine) GEngine->AddOnScreenDebugMessage(9, 2.f, FColor::Magenta, FString::Printf(TEXT("Door can see %d Shelves"), CurrentShelfLayout.Num()));
 
@@ -55,6 +55,20 @@ void AEntranceDoor::BeginPlay()
 			CurrentShelfLayout.Add(ProductShelf);
 		}
 	}
+
+	TSubclassOf<AActor> WorldBarrelObject = AGoldBarrel::StaticClass();
+
+	TArray<AActor*> GoldBarrels;
+
+	UGameplayStatics::GetAllActorsOfClass(this, WorldBarrelObject, GoldBarrels);
+
+	if (GoldBarrels[0])
+	{
+		GoldBarrel = Cast<AGoldBarrel>(GoldBarrels[0]);
+	}
+
+	
+	
 }
 
 void AEntranceDoor::GobboSpawn()
@@ -65,8 +79,9 @@ void AEntranceDoor::GobboSpawn()
 
 	GobboShoppers.Last()->SetGobboSeenShelves(CurrentShelfLayout);
 
-	GobboShoppers.Last()->PrintGobboSeenShelves();
+	GobboShoppers.Last()->SetPayPoint(GoldBarrel);
 
+	GobboShoppers.Last()->PrintGobboSeenShelves();
 	
 }
 
@@ -88,8 +103,6 @@ void AEntranceDoor::Tick(float DeltaTime)
 		}
 
 	}
-	
-
 
 }
 

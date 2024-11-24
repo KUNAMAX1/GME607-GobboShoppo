@@ -31,4 +31,6 @@ AFortniteProduct::AFortniteProduct()
 	ProductPrice = 39;
 	
 	BaseProductMesh->SetRelativeScale3D(FVector(4, 4, 4));
+
+	BaseProductMesh->SetVisibility(true);
 }

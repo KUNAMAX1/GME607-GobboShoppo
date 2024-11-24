@@ -61,4 +61,6 @@ public:
 
 	AProduct* ProductsOnDisplay[NO_OF_PRODUCTS];
 
+	void ProductTaken(int ProductIndex);
+
 };

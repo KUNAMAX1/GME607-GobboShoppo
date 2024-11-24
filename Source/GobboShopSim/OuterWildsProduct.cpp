@@ -29,4 +29,5 @@ AOuterWildsProduct::AOuterWildsProduct()
 	ProductPrice = 14;
 
 	BaseProductMesh->SetRelativeScale3D(FVector(0.8, 0.8, 0.8));
+	BaseProductMesh->SetVisibility(true);
 }

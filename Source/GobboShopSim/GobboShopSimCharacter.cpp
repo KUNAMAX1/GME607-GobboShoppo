@@ -200,8 +200,13 @@ void AGobboShopSimCharacter::Tick(float DeltaTime)
 		GEngine->AddOnScreenDebugMessage(1, 2.f, FColor::Green, PlayerProduct->GetLabel());
 	}
 
+	FVector PlayerLoc;
+	FRotator PlayerRot;
+	GetController()->GetPlayerViewPoint(PlayerLoc, PlayerRot);
 
-	PlayerProduct->SetActorLocation(this->GetActorLocation() + FVector(100, 5, 5));
+	PlayerLoc.Z -= 50;
+
+	PlayerProduct->SetActorLocation(PlayerLoc + (PlayerRot.Vector().RotateAngleAxis(-20, FVector::UpVector) * 100));
 	PlayerProduct->AddActorLocalRotation(FRotator(0, 1, 0));
 }
 

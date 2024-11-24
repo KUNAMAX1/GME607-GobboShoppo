@@ -10,17 +10,17 @@ AGobbo::AGobbo()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	GobboMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Gobbo Mesh"));
+	GobboMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Gobbo Mesh"));
 
 	GobboMat = CreateDefaultSubobject<UMaterial>(TEXT("Gobbo Mat"));
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh>GobboCheck(TEXT("/Game/Goblin/Goblin"));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh>GobboCheck(TEXT("/Game/Goblin/Goblin2"));
 
 	static ConstructorHelpers::FObjectFinder<UMaterial>GobboMatCheck(TEXT("/Game/Goblin/M_Goblin"));
 
 	if (GobboCheck.Succeeded())
 	{
-		GobboMesh->SetStaticMesh(GobboCheck.Object);
+		GobboMesh->SetSkeletalMesh(GobboCheck.Object);
 	}
 	if (GobboMatCheck.Succeeded())
 	{
@@ -29,7 +29,7 @@ AGobbo::AGobbo()
 		GobboMesh->SetMaterial(0, GobboMat);
 	}
 
-	GobboMesh->SetRelativeScale3D(FVector(22, 22, 22));
+	GobboMesh->SetRelativeScale3D(FVector(0.3, 0.3, 0.3));
 
 	TextRenderComponent = CreateDefaultSubobject<UTextRenderComponent>(TEXT("TextRenderComponent"));
 	TextRenderComponent->SetupAttachment(RootComponent);
@@ -37,6 +37,8 @@ AGobbo::AGobbo()
 	GobboGenerateShoppingList();
 	GobboState = EGobboState::CHECKLIST;
 
+	GobboShoppingSpeed = 1;
+	ProductCost = 0;
 }
 
 // Called when the game starts or when spawned
@@ -50,8 +52,6 @@ void AGobbo::BeginPlay()
 	TextRenderComponent->SetWorldSize(25.0f);
 	TextRenderComponent->SetVisibility(true);
 
-	TextRenderComponent->SetRelativeLocation(FVector(-140, 300, 120));
-	TextRenderComponent->SetRelativeRotation(FRotator(0, -90, 0));
 	
 }
 
@@ -61,11 +61,6 @@ void AGobbo::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	UpdateGobbo(DeltaTime);
-}
-
-AGobbo::AGobbo(TArray<AProductShelf*> _GobboSeenShelves)
-{
-	GobboSeenShelves = _GobboSeenShelves;
 }
 
 void AGobbo::SetGobboSeenShelves(TArray<AProductShelf*> NewShelves)
@@ -78,9 +73,13 @@ void AGobbo::SetGobboShoppingTarget(AActor* NewTarget)
 	GobboShoppingTarget = NewTarget;
 }
 
+void AGobbo::SetPayPoint(AGoldBarrel* GoldBarrel)
+{
+	PayPoint = GoldBarrel;
+}
+
 void AGobbo::GobboBrowsing(float DeltaTime)
 {
-	//SetActorRotation(FRotationMatrix::MakeFromX(GobboShoppingTarget->GetActorLocation() - this->GetActorLocation()).Rotator());
 
 	if (FVector::Dist(this->GetActorLocation(), GobboShoppingTarget->GetActorLocation()) < 200)
 	{
@@ -95,6 +94,9 @@ void AGobbo::GobboBrowsing(float DeltaTime)
 					if (ShelfNearGobbo->ProductsOnDisplay[j]->GetEnum() == GobboShoppingList.WantedProduct[i])
 					{
 						GobboShoppingList.bCompletedPurchase[i] = true;
+						ProductCost += ShelfNearGobbo->ProductsOnDisplay[j]->GetProductPrice();
+						ShelfNearGobbo->ProductTaken(j);
+						break;
 					}
 				}
 
@@ -117,6 +119,22 @@ void AGobbo::GobboExit()
 	this->Destroy();
 }
 
+void AGobbo::GobboPay(float DeltaTime)
+{
+	GobboShoppingTarget = PayPoint;
+
+	if (FVector::Dist(this->GetActorLocation(), GobboShoppingTarget->GetActorLocation()) < 100)
+	{
+		PayPoint->AddGoldToBarrel(ProductCost);
+		GobboState = EGobboState::EXIT;
+	}
+	else
+	{
+		GobboGoTo(DeltaTime);
+	}
+
+}
+
 void AGobbo::PrintGobboSeenShelves()
 {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(9, 2.f, FColor::Magenta, FString::Printf(TEXT("I can see %d Shelves"), GobboSeenShelves.Num()));
@@ -124,6 +142,21 @@ void AGobbo::PrintGobboSeenShelves()
 
 void AGobbo::UpdateGobbo(float DeltaTime)
 {
+
+	if (GobboShoppingTarget)
+	{
+		FRotator GobboLook = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), GobboShoppingTarget->GetActorLocation());
+
+		this->SetActorRotation(GobboLook + FRotator(0, -90, 0));
+	}
+	FVector TextLocation = this->GetActorLocation();
+
+	TextLocation.Z += 180.f;
+
+	TextRenderComponent->SetRelativeLocation(TextLocation);
+	TextRenderComponent->SetRelativeRotation(this->GetActorRotation()+ FRotator(0, 90, 0));
+	
+
 	switch (GobboState)
 	{
 	case EGobboState::BROWSING:
@@ -135,12 +168,11 @@ void AGobbo::UpdateGobbo(float DeltaTime)
 		break;
 
 	case EGobboState::PAY:
-
+		GobboPay(DeltaTime);
 		break;
 
 	case EGobboState::EXIT:
 		GobboExit();
-
 		break;
 
 	}
@@ -148,6 +180,7 @@ void AGobbo::UpdateGobbo(float DeltaTime)
 
 void AGobbo::GobboGoTo(float DeltaTime)
 {
+	//SetActorRotation(FRotationMatrix::MakeFromX(GobboShoppingTarget->GetActorLocation() + this->GetActorLocation()).Rotator());
 
 	if (GobboShoppingTarget)
 	{
@@ -217,7 +250,7 @@ void AGobbo::GobboCheckList()
 
 	if (bCompletedAllItems == true)
 	{
-		GobboState = EGobboState::EXIT;
+		GobboState = EGobboState::PAY;
 	}
 	else 
 	{

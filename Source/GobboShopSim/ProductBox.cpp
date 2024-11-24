@@ -109,6 +109,7 @@ AProduct* AProductBox::GetProduct()
 	{
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Index out of Array"));
 		ReturningProduct = nullptr;
+		SpawnItems();
 	}
 	
 	return ReturningProduct;

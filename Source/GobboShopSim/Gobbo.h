@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "ProductShelf.h"
+#include "GoldBarrel.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Gobbo.generated.h"
 
 constexpr int MAX_SHOPPING_LIST = 4;
@@ -35,7 +37,6 @@ class GOBBOSHOPSIM_API AGobbo : public AActor
 public:
 	// Sets default values for this actor's properties
 	AGobbo();
-	AGobbo(TArray<AProductShelf*> _GobboSeenShelves);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeadText")
 		class UTextRenderComponent* TextRenderComponent;
@@ -45,7 +46,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
-		class UStaticMeshComponent* GobboMesh;
+		class USkeletalMeshComponent* GobboMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
 		class UMaterial* GobboMat;
@@ -53,17 +54,20 @@ protected:
 	TArray<AProductShelf*> GobboSeenShelves;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gobbo Settings")
-		float GobboShoppingSpeed = 3;
+		float GobboShoppingSpeed;
 
 	bool bIsMoving;
+	int ProductCost;
 
 	AActor* GobboShoppingTarget;
+	AGoldBarrel* PayPoint;
 
 	void GobboGoTo(float DeltaTime);
 	void GobboGenerateShoppingList();
 	void GobboCheckList();
 	void GobboBrowsing(float DeltaTime);
 	void GobboExit();
+	void GobboPay(float DeltaTime);
 
 
 
@@ -78,6 +82,7 @@ public:
 
 	void SetGobboSeenShelves(TArray<AProductShelf*> NewShelves);
 	void SetGobboShoppingTarget(AActor* NewTarget);
+	void SetPayPoint(AGoldBarrel* GoldBarrel);
 
 
 

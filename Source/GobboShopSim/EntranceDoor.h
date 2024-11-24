@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "ProductShelf.h"
 #include "Gobbo.h"
+#include "GoldBarrel.h"
 #include "EntranceDoor.generated.h"
 
 UCLASS()
@@ -43,6 +44,8 @@ protected:
 	TArray<AProductShelf*> CurrentShelfLayout;
 
 	TArray<AGobbo*> GobboShoppers;
+
+	AGoldBarrel* GoldBarrel;
 
 	void GobboSpawn();
 
