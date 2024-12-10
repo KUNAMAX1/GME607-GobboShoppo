@@ -94,24 +94,51 @@ void AProductBox::Tick(float DeltaTime)
 
 AProduct* AProductBox::GetProduct()
 {
-	AProduct* ReturningProduct;
+	AProduct* ReturningProduct = nullptr;
 
 	if (CurrentProductIndex >= 0 && CurrentProductIndex < NO_OF_PRODUCTS)
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("Product Index no. %d"), CurrentProductIndex));
-		
+
+
 		ReturningProduct = ProductsOnDisplay[CurrentProductIndex];
 
+
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("Product Index no. %d"), CurrentProductIndex));
+		
+
 		CurrentProductIndex--;
+
+	
+		if (CurrentProductIndex < 0)
+		{
+			CurrentProductIndex = NO_OF_PRODUCTS - 1; 
+		}
+		
 		
 	}
 	else
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Index out of Array"));
-		ReturningProduct = nullptr;
+		if (GEngine)
+		{
+          GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Index out of Array"));
+		}
+			
+
 		SpawnItems();
+
+		CurrentProductIndex = NO_OF_PRODUCTS - 1;
+
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("New Product Index no. %d"), CurrentProductIndex));
+
+	
+
+
 	}
 	
+
+
+
 	return ReturningProduct;
 	
 }
